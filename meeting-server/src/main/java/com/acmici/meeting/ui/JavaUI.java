@@ -5,13 +5,10 @@
  */
 
 package com.acmici.meeting.ui;
-
-import javax.swing.*;
-
 /**
  * @author sukha
  */
-public class JavaIO {
+public class JavaUI {
 
     /**
      * @param args the command line arguments
