@@ -6,21 +6,19 @@
 
 package com.acmici.meeting.ui;
 
-import java.awt.Toolkit;
-
 /**
  * @author sukha
  */
-public class RecordUpdateDialog extends javax.swing.JDialog {
+public class MeetingEndDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form RecordUpdateDialog
      */
-    public RecordUpdateDialog(java.awt.Frame parent, boolean modal) {
+    public MeetingEndDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        int w = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
-        int h = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
+        int w = (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
+        int h = (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
         this.setLocation(w, h);
     }
 
@@ -33,32 +31,32 @@ public class RecordUpdateDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        promptLabel = new javax.swing.JLabel();
+        recordLabel = new javax.swing.JLabel();
+        recordTextField = new javax.swing.JTextField();
+        recordButton = new javax.swing.JButton();
         confirmButton = new javax.swing.JButton();
         cancleButton = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        logLabel = new javax.swing.JLabel();
+        logTextField = new javax.swing.JTextField();
+        logButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("请选择需要上传的录音文件和会议记录");
+        promptLabel.setText("请选择需要上传的录音文件和会议记录");
 
-        jLabel2.setText("录音文件：");
+        recordLabel.setText("录音文件：");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        recordTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                recordTextFieldActionPerformed(evt);
             }
         });
 
-        jButton1.setText("浏览");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        recordButton.setText("浏览");
+        recordButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                recordButtonActionPerformed(evt);
             }
         });
 
@@ -76,18 +74,18 @@ public class RecordUpdateDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setText("会议记录：");
+        logLabel.setText("会议记录：");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        logTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                logTextFieldActionPerformed(evt);
             }
         });
 
-        jButton2.setText("浏览");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        logButton.setText("浏览");
+        logButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                logButtonActionPerformed(evt);
             }
         });
 
@@ -106,40 +104,40 @@ public class RecordUpdateDialog extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel2)
+                                .addComponent(recordLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(recordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
+                                .addComponent(recordButton))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(46, 46, 46)
-                                .addComponent(jLabel1)))
+                                .addComponent(promptLabel)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addComponent(logLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(logButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(promptLabel)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(recordLabel)
+                    .addComponent(recordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recordButton))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(logLabel)
+                    .addComponent(logTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmButton)
@@ -150,13 +148,19 @@ public class RecordUpdateDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void recordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_recordTextFieldActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+        // 判断录音文件和会议记录文件路径合法性，并给出提示
+        final String confirmMessage = "录音文件或会议记录路径为空，确定不将其保存？";
+        if (javax.swing.JOptionPane.showConfirmDialog(null, confirmMessage, "提示", javax.swing.JOptionPane.YES_NO_OPTION)
+                == javax.swing.JOptionPane.NO_OPTION) { 
+            // ...... 
+        } else { 
+            System.exit(0);
+        } 
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleButtonActionPerformed
@@ -164,28 +168,28 @@ public class RecordUpdateDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_cancleButtonActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void logTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_logTextFieldActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void recordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_recordButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void logButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_logButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancleButton;
     private javax.swing.JButton confirmButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton logButton;
+    private javax.swing.JLabel logLabel;
+    private javax.swing.JTextField logTextField;
+    private javax.swing.JLabel promptLabel;
+    private javax.swing.JButton recordButton;
+    private javax.swing.JLabel recordLabel;
+    private javax.swing.JTextField recordTextField;
     // End of variables declaration//GEN-END:variables
 }
