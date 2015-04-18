@@ -44,20 +44,19 @@ public class OngoingFrame extends javax.swing.JFrame {
         readButton = new javax.swing.JButton();
         endButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("会议进行中...");
         setBounds(new java.awt.Rectangle(0, 0, 350, 260));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.append("会议主题：");
-        jTextArea1.append(meetingServer.getTopic());
-        jTextArea1.append("\n与会人员：");
-        jTextArea1.append(meetingServer.getMembers());
-        jTextArea1.append("\n记录员：");
-        jTextArea1.append(meetingServer.getRecorder());
-        jTextArea1.append("\n会议时间：");
+        jTextArea1.setText("会议主题：\n与会人员：\n记录员：\n会议时间：");
         jScrollPane1.setViewportView(jTextArea1);
 
         updateButton.setText("修改会议信息");
@@ -84,30 +83,30 @@ public class OngoingFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane1)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(updateButton)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(readButton)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                                                .addComponent(endButton)))
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(updateButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(readButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addComponent(endButton)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(15, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(updateButton)
-                                        .addComponent(readButton)
-                                        .addComponent(endButton))
-                                .addGap(13, 13, 13))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateButton)
+                    .addComponent(readButton)
+                    .addComponent(endButton))
+                .addGap(13, 13, 13))
         );
 
         pack();
@@ -121,8 +120,8 @@ public class OngoingFrame extends javax.swing.JFrame {
 
     private void endButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endButtonActionPerformed
         // TODO add your handling code here:
-        RecordUpdateDialog record_update_dialog = new RecordUpdateDialog(this, true);
-        record_update_dialog.setVisible(true);
+        MeetingEndDialog meeting_end_dialog = new MeetingEndDialog(this, true);
+        meeting_end_dialog.setVisible(true);
     }//GEN-LAST:event_endButtonActionPerformed
 
     private void readButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readButtonActionPerformed
@@ -130,6 +129,10 @@ public class OngoingFrame extends javax.swing.JFrame {
         HistroyFrame histroy_frame = new HistroyFrame();
         histroy_frame.setVisible(true);
     }//GEN-LAST:event_readButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
