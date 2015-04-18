@@ -44,7 +44,7 @@ public class OngoingFrame extends javax.swing.JFrame {
         readButton = new javax.swing.JButton();
         endButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("会议进行中...");
         setBounds(new java.awt.Rectangle(0, 0, 350, 260));
         setResizable(false);

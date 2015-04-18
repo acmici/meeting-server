@@ -8,7 +8,7 @@ package com.acmici.meeting.ui;
 /**
  * @author sukha
  */
-public class JavaUI {
+public class MeetingUIMain {
 
     /**
      * @param args the command line arguments

@@ -76,6 +76,12 @@ public class WizardDialog extends javax.swing.JDialog {
         filePathLabel.setFont(new java.awt.Font("宋体", 0, 14)); // NOI18N
         filePathLabel.setText("会议文件：");
 
+        topicTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                topicTextFieldActionPerformed(evt);
+            }
+        });
+
         filePathButton.setText("浏览");
         filePathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,7 +212,27 @@ public class WizardDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_filePathButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        // TODO add your handling code here:
+        // 判断各个输入栏的文字状态
+        if (topicTextField.getText().equals("")) {
+            final String confirmMessage = "请输入会议主题！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (participantsTextField.getText().equals("")) {
+            final String confirmMessage = "请选择与会人员！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (recorderTextField.getText().equals("")) {
+            final String confirmMessage = "请选择记录员！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(filePathTextField.getText().equals("")) {
+            final String confirmMessage = "请选择会议文件路径！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         owner.setVisible(false);
         meetingServer = new MeetingServerImpl(topicTextField.getText(), recorderTextField.getText(), participantsTextField.getText(), filePath);
 
@@ -233,6 +259,10 @@ public class WizardDialog extends javax.swing.JDialog {
     private void recorderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recorderButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_recorderButtonActionPerformed
+
+    private void topicTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topicTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_topicTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
