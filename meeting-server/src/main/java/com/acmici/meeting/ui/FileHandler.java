@@ -97,7 +97,8 @@ public class FileHandler {
         }
 
         String cmd = "";
-        cmd = "cmd.exe /c /e /y xcopy " + source_path + " " + target_path;
+        cmd = "cmd.exe xcopy /c /e /y " + source_path + " " + target_path;
+        System.out.println(cmd);
         try {
             Process proc = Runtime.getRuntime().exec(cmd);
             if (proc.waitFor() != 0) {

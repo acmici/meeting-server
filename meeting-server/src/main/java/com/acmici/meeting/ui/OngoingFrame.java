@@ -23,8 +23,8 @@ public class OngoingFrame extends javax.swing.JFrame {
      */
     private MeetingServer meetingServer;
     final private Date meetingStartTime;
-    final private SimpleDateFormat meetingDateFormat;
-    final private SimpleDateFormat filePathFormat;
+    final private SimpleDateFormat meetingDateFormat = new SimpleDateFormat("HH:mm:ss");;
+    final private SimpleDateFormat filePathFormat = new SimpleDateFormat("yy-MM-dd");
     final private String filePath = "D:\\test\\";
     public class MeetingTimerTask extends java.util.TimerTask {  
         //@Override  
@@ -52,24 +52,31 @@ public class OngoingFrame extends javax.swing.JFrame {
         
         //初始化会议开始时间信息
         meetingStartTime = new Date();
-        meetingDateFormat = new SimpleDateFormat("HH:mm:ss");
         startTime.setText(meetingDateFormat.format(meetingStartTime));
         Timer meetingTimer = new Timer();
         meetingTimer.schedule(new MeetingTimerTask(), 0 ,1000); 
         
         //System.out.println("ongoing...");
-        //备份会议文件，文件夹命名方式为日期+会议主题
-        FileHandler fileHandler = new FileHandler();
-        filePathFormat = new SimpleDateFormat("yy-MM-dd");
-        fileHandler.copyFolder(meetingServer.getFile_path(), filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic());
+        this.backupFiles();
     }
-
+    
     public void refreshServer(MeetingServer server) {
+        //更新服务器信息
         meetingServer = server;
         participants.setText(meetingServer.getMembers());
         recorder.setText(meetingServer.getRecorder());
+        
+        this.backupFiles();
     }
     
+    private void backupFiles() {
+        //备份会议文件，文件夹命名方式为日期+会议主题
+        FileHandler fileHandler = new FileHandler();
+        if (fileHandler.copyFolder(meetingServer.getFile_path(), 
+                filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic())) {
+            System.out.println("复制成功。");;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
