@@ -24,6 +24,8 @@ public class OngoingFrame extends javax.swing.JFrame {
     private MeetingServer meetingServer;
     final private Date meetingStartTime;
     final private SimpleDateFormat meetingDateFormat;
+    final private SimpleDateFormat filePathFormat;
+    final private String filePath = "D:\\test\\";
     public class MeetingTimerTask extends java.util.TimerTask {  
         //@Override  
         public void run() {
@@ -54,6 +56,12 @@ public class OngoingFrame extends javax.swing.JFrame {
         startTimeLabel.setText(startTimeLabel.getText() + meetingDateFormat.format(meetingStartTime));
         Timer meetingTimer = new Timer();
         meetingTimer.schedule(new MeetingTimerTask(), 0 ,1000); 
+        
+        //System.out.println("ongoing...");
+        //备份会议文件，文件夹命名方式为日期+会议主题
+        FileHandler fileHandler = new FileHandler();
+        filePathFormat = new SimpleDateFormat("yy-MM-dd");
+        fileHandler.copyFolder(meetingServer.getFile_path(), filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic());
     }
 
     /**
