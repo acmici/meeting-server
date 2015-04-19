@@ -20,10 +20,11 @@ public class UpdateDialog extends javax.swing.JDialog {
     /**
      * Creates new form WizardDialog
      */
-    private MeetingServer meetingServer;
-    private String filePath;
-    public UpdateDialog(java.awt.Frame parent, boolean modal, MeetingServer server) {
+    final private MeetingServer meetingServer;
+    final private OngoingFrame owner;
+    public UpdateDialog(OngoingFrame parent, boolean modal, MeetingServer server) {
         super(parent, modal);
+        owner = parent;
         meetingServer = server;
         initComponents();
         int w = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
@@ -217,23 +218,24 @@ public class UpdateDialog extends javax.swing.JDialog {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int result = chooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
-            filePath = chooser.getSelectedFile().toString();
-            filePathTextField.setText(filePath);
+            filePathTextField.setText(chooser.getSelectedFile().toString());
         }
     }//GEN-LAST:event_filePathButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        // TODO add your handling code here:
-        this.getOwner().setVisible(true);
 
         try {
-            meetingServer.setHome(filePath);
+            meetingServer.setHome(filePathTextField.getText());
         } catch (FtpException e) {
             e.printStackTrace();
             // todo hecan 弹出错误提示
         }
-        OngoingFrame ongoing_frame = new OngoingFrame(meetingServer);
-        ongoing_frame.setVisible(true);
+        //System.out.println(filePath);
+        meetingServer.setFile_path(filePathTextField.getText());
+        meetingServer.setRecorder(recorderTextField.getText());
+        meetingServer.setMembers(participantsTextField.getText());
+        owner.refreshServer(meetingServer);
+        this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

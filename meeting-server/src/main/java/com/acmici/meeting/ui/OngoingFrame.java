@@ -46,14 +46,14 @@ public class OngoingFrame extends javax.swing.JFrame {
         this.setLocation(w, h);
         
         //初始化会议主题、与会人员、记录员信息
-        topicLabel.setText(topicLabel.getText() + meetingServer.getTopic());
-        participantsLabel.setText(participantsLabel.getText() + meetingServer.getMembers());
-        recorderLabel.setText(recorderLabel.getText() + meetingServer.getRecorder());
+        topic.setText(meetingServer.getTopic());
+        participants.setText(meetingServer.getMembers());
+        recorder.setText(meetingServer.getRecorder());
         
         //初始化会议开始时间信息
         meetingStartTime = new Date();
         meetingDateFormat = new SimpleDateFormat("HH:mm:ss");
-        startTimeLabel.setText(startTimeLabel.getText() + meetingDateFormat.format(meetingStartTime));
+        startTime.setText(meetingDateFormat.format(meetingStartTime));
         Timer meetingTimer = new Timer();
         meetingTimer.schedule(new MeetingTimerTask(), 0 ,1000); 
         
@@ -64,6 +64,12 @@ public class OngoingFrame extends javax.swing.JFrame {
         fileHandler.copyFolder(meetingServer.getFile_path(), filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic());
     }
 
+    public void refreshServer(MeetingServer server) {
+        meetingServer = server;
+        participants.setText(meetingServer.getMembers());
+        recorder.setText(meetingServer.getRecorder());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,6 +88,10 @@ public class OngoingFrame extends javax.swing.JFrame {
         startTimeLabel = new javax.swing.JLabel();
         ongoingTimeLabel = new javax.swing.JLabel();
         timeRefreshLabel = new javax.swing.JLabel();
+        topic = new javax.swing.JLabel();
+        participants = new javax.swing.JLabel();
+        recorder = new javax.swing.JLabel();
+        startTime = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("会议进行中...");
@@ -129,6 +139,14 @@ public class OngoingFrame extends javax.swing.JFrame {
 
         timeRefreshLabel.setText("时间");
 
+        topic.setText("主题");
+
+        participants.setText("人员");
+
+        recorder.setText("记录员");
+
+        startTime.setText("开始时间");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,10 +160,22 @@ public class OngoingFrame extends javax.swing.JFrame {
                         .addComponent(readButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(endButton))
-                    .addComponent(topicLabel)
-                    .addComponent(participantsLabel)
-                    .addComponent(recorderLabel)
-                    .addComponent(startTimeLabel)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(topicLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(topic))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(participantsLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(participants))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(recorderLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(recorder))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(startTimeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(startTime))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ongoingTimeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -156,13 +186,21 @@ public class OngoingFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(topicLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(topicLabel)
+                    .addComponent(topic))
                 .addGap(18, 18, 18)
-                .addComponent(participantsLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(participantsLabel)
+                    .addComponent(participants))
                 .addGap(18, 18, 18)
-                .addComponent(recorderLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(recorderLabel)
+                    .addComponent(recorder))
                 .addGap(18, 18, 18)
-                .addComponent(startTimeLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startTimeLabel)
+                    .addComponent(startTime))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ongoingTimeLabel)
@@ -209,11 +247,15 @@ public class OngoingFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton endButton;
     private javax.swing.JLabel ongoingTimeLabel;
+    private javax.swing.JLabel participants;
     private javax.swing.JLabel participantsLabel;
     private javax.swing.JButton readButton;
+    private javax.swing.JLabel recorder;
     private javax.swing.JLabel recorderLabel;
+    private javax.swing.JLabel startTime;
     private javax.swing.JLabel startTimeLabel;
     private javax.swing.JLabel timeRefreshLabel;
+    private javax.swing.JLabel topic;
     private javax.swing.JLabel topicLabel;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables

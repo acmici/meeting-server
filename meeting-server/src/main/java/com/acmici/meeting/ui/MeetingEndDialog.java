@@ -6,6 +6,8 @@
 
 package com.acmici.meeting.ui;
 
+import javax.swing.JFileChooser;
+
 /**
  * @author sukha
  */
@@ -177,11 +179,25 @@ public class MeetingEndDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_logTextFieldActionPerformed
 
     private void recordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordButtonActionPerformed
-        // TODO add your handling code here:
+        // 选择录音文件
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("请选择录音文件");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result = chooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            recordTextField.setText(chooser.getSelectedFile().toString());
+        }
     }//GEN-LAST:event_recordButtonActionPerformed
 
     private void logButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logButtonActionPerformed
-        // TODO add your handling code here:
+        // 选择会议记录文件
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("请选择会议记录文件");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result = chooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            logTextField.setText(chooser.getSelectedFile().toString());
+        }
     }//GEN-LAST:event_logButtonActionPerformed
 
 

@@ -21,7 +21,6 @@ public class WizardDialog extends javax.swing.JDialog {
      * Creates new form WizardDialog
      */
     private MeetingServer meetingServer;
-    private String filePath;
 
     public WizardDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -204,8 +203,7 @@ public class WizardDialog extends javax.swing.JDialog {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int result = chooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
-            filePath = chooser.getSelectedFile().toString();
-            filePathTextField.setText(filePath);
+            filePathTextField.setText(chooser.getSelectedFile().toString());
         }
     }//GEN-LAST:event_filePathButtonActionPerformed
 
@@ -234,7 +232,8 @@ public class WizardDialog extends javax.swing.JDialog {
         
         //创建文件服务器
         this.getOwner().setVisible(false);
-        meetingServer = new MeetingServerImpl(topicTextField.getText(), recorderTextField.getText(), participantsTextField.getText(), filePath);
+        meetingServer = new MeetingServerImpl(topicTextField.getText(), recorderTextField.getText(), 
+                                            participantsTextField.getText(), filePathTextField.getText());
         try {
             meetingServer.startServer();
         } catch (FtpException e) {
