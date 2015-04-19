@@ -17,8 +17,6 @@ import java.awt.Toolkit;
  * @author sukha
  */
 public class UpdateDialog extends javax.swing.JDialog {
-    private java.awt.Frame owner;
-
     /**
      * Creates new form WizardDialog
      */
@@ -27,11 +25,17 @@ public class UpdateDialog extends javax.swing.JDialog {
     public UpdateDialog(java.awt.Frame parent, boolean modal, MeetingServer server) {
         super(parent, modal);
         meetingServer = server;
-        owner = parent;
         initComponents();
         int w = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
         int h = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
         this.setLocation(w, h);
+        
+        //设置各个信息栏的默认值
+        topicTextField.setText(meetingServer.getTopic());
+        participantsTextField.setText(meetingServer.getMembers());
+        recorderTextField.setText(meetingServer.getRecorder());
+        filePathTextField.setText(meetingServer.getFile_path());
+        
     }
 
     /**
@@ -56,6 +60,8 @@ public class UpdateDialog extends javax.swing.JDialog {
         filePathButton = new javax.swing.JButton();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        recorderButton = new javax.swing.JButton();
+        participantsButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("创建会议向导");
@@ -74,6 +80,19 @@ public class UpdateDialog extends javax.swing.JDialog {
 
         filePathLabel.setFont(new java.awt.Font("宋体", 0, 14)); // NOI18N
         filePathLabel.setText("会议文件：");
+
+        topicTextField.setEditable(false);
+
+        recorderTextField.setMaximumSize(new java.awt.Dimension(2147483647, 151));
+
+        participantsTextField.setMaximumSize(new java.awt.Dimension(2147483647, 151));
+
+        filePathTextField.setMaximumSize(new java.awt.Dimension(2147483647, 151));
+        filePathTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filePathTextFieldActionPerformed(evt);
+            }
+        });
 
         filePathButton.setText("浏览");
         filePathButton.addActionListener(new java.awt.event.ActionListener() {
@@ -96,6 +115,20 @@ public class UpdateDialog extends javax.swing.JDialog {
             }
         });
 
+        recorderButton.setText("选择");
+        recorderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recorderButtonActionPerformed(evt);
+            }
+        });
+
+        participantsButton.setText("选择");
+        participantsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                participantsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,41 +137,42 @@ public class UpdateDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))
+                        .addComponent(jSeparator1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(updateLabel)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(participantsLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(participantsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(participantsButton))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(topicLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(topicTextField))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(recorderLabel)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(recorderTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(filePathLabel)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(filePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            .addComponent(confirmButton)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cancelButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(recorderButton)
+                                        .addComponent(filePathButton))))
+                            .addComponent(updateLabel))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(recorderLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(recorderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(participantsLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(participantsTextField))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(topicLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(topicTextField))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(filePathLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(filePathTextField))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(confirmButton)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(filePathButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cancelButton, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,11 +188,13 @@ public class UpdateDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(participantsLabel)
-                    .addComponent(participantsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(participantsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(participantsButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(recorderLabel)
-                    .addComponent(recorderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(recorderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recorderButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(filePathLabel)
@@ -168,7 +204,7 @@ public class UpdateDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmButton)
                     .addComponent(cancelButton))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -188,7 +224,7 @@ public class UpdateDialog extends javax.swing.JDialog {
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         // TODO add your handling code here:
-        owner.setVisible(false);
+        this.getOwner().setVisible(true);
 
         try {
             meetingServer.setHome(filePath);
@@ -205,6 +241,18 @@ public class UpdateDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void filePathTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filePathTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filePathTextFieldActionPerformed
+
+    private void recorderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recorderButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_recorderButtonActionPerformed
+
+    private void participantsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_participantsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_participantsButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
@@ -213,8 +261,10 @@ public class UpdateDialog extends javax.swing.JDialog {
     private javax.swing.JLabel filePathLabel;
     private javax.swing.JTextField filePathTextField;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton participantsButton;
     private javax.swing.JLabel participantsLabel;
     private javax.swing.JTextField participantsTextField;
+    private javax.swing.JButton recorderButton;
     private javax.swing.JLabel recorderLabel;
     private javax.swing.JTextField recorderTextField;
     private javax.swing.JLabel topicLabel;

@@ -90,7 +90,7 @@ public class WelcomeFrame extends JFrame {
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         WizardDialog wizard_dialog = new WizardDialog(this, true);
-        this.setVisible(false);
+        //this.setVisible(false);
         wizard_dialog.setVisible(true);
     }
 

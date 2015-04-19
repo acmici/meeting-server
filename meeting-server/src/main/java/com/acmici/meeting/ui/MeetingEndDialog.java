@@ -155,12 +155,16 @@ public class MeetingEndDialog extends javax.swing.JDialog {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         // 判断录音文件和会议记录文件路径合法性，并给出提示
         final String confirmMessage = "录音文件或会议记录路径为空，确定不将其保存？";
-        if (javax.swing.JOptionPane.showConfirmDialog(null, confirmMessage, "提示", javax.swing.JOptionPane.YES_NO_OPTION)
-                == javax.swing.JOptionPane.NO_OPTION) { 
-            // ...... 
-        } else { 
+        if (recordTextField.getText().equals("") || logTextField.getText().equals("")) {
+            if (javax.swing.JOptionPane.showConfirmDialog(null, confirmMessage, "提示", javax.swing.JOptionPane.YES_NO_OPTION)
+                    == javax.swing.JOptionPane.NO_OPTION) { 
+                // ...... 
+            } else { 
+                System.exit(0);
+            } 
+        } else {
             System.exit(0);
-        } 
+        }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleButtonActionPerformed

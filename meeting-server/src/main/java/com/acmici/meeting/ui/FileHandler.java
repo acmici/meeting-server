@@ -16,7 +16,7 @@ import java.io.IOException;
 public class FileHandler {
     private final Desktop desk = Desktop.getDesktop();
     ;
-    private final String wrar_path = "C:\\Program Files\\WinRAR\\WinRAR.exe ";
+    private final String wrar_path = "C:/Program Files/WinRAR/WinRAR.exe ";
 
     public FileHandler() {
 
@@ -74,5 +74,39 @@ public class FileHandler {
             e.printStackTrace();
         }
         return true;
+    }
+    public boolean createFolder(String path) {
+        File dir = new File(path);      
+        if  (dir.isDirectory()) {    
+            return true;
+        } else if (!dir.exists()) {
+            if(dir.mkdirs())
+                return true;
+        }
+        return false;
+    }
+    public boolean copyFolder(String source_path, String target_path) {
+
+        File tar_dir = new File(target_path);
+        //创建文件夹
+        if (!tar_dir.isDirectory()) {
+            if (!this.createFolder(target_path)) {
+                System.out.println("创建文件夹失败。");
+                return false;
+            }
+        }
+
+        String cmd = "";
+        cmd = "cmd.exe /c /e /y xcopy " + source_path + " " + target_path;
+        try {
+            Process proc = Runtime.getRuntime().exec(cmd);
+            if (proc.waitFor() != 0) {
+                if (proc.exitValue() != 0)
+                    return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;    
     }
 }
