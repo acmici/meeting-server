@@ -75,6 +75,7 @@ public class FileHandler {
         }
         return true;
     }
+
     public boolean createFolder(String path) {
         File dir = new File(path);      
         if  (dir.isDirectory()) {    
@@ -86,7 +87,6 @@ public class FileHandler {
         return false;
     }
     public boolean copyFolder(String source_path, String target_path) {
-
         File tar_dir = new File(target_path);
         //创建文件夹
         if (!tar_dir.isDirectory()) {
@@ -96,8 +96,7 @@ public class FileHandler {
             }
         }
 
-        String cmd = "";
-        cmd = "cmd.exe xcopy /c /e /y " + source_path + " " + target_path;
+        String cmd = "cmd  /c xcopy /e /y " + source_path + " " + target_path;
         System.out.println(cmd);
         try {
             Process proc = Runtime.getRuntime().exec(cmd);
@@ -110,4 +109,4 @@ public class FileHandler {
         }
         return true;    
     }
-}
+}    

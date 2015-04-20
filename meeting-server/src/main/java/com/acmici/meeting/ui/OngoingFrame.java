@@ -72,10 +72,8 @@ public class OngoingFrame extends javax.swing.JFrame {
     private void backupFiles() {
         //备份会议文件，文件夹命名方式为日期+会议主题
         FileHandler fileHandler = new FileHandler();
-        if (fileHandler.copyFolder(meetingServer.getFile_path(), 
-                filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic())) {
-            System.out.println("复制成功。");;
-        }
+        fileHandler.copyFolder(meetingServer.getFile_path(), 
+                    filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic());
     }
     /**
      * This method is called from within the constructor to initialize the form.
