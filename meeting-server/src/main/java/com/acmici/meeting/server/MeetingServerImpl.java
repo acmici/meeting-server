@@ -30,7 +30,6 @@ public class MeetingServerImpl implements MeetingServer {
     @Override
     public void setHome(String home) throws FtpException {
         fileServer.setHome(home);
-        fileServer.restartServer();
     }
 
     @Override

@@ -48,6 +48,7 @@ public class FileServer {
         }
     }
 
+    //don't use
     public void restartServer() throws FtpException {
         server.stop();
         while (!server.isStopped());
