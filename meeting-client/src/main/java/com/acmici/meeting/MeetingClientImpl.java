@@ -1,65 +1,78 @@
 package com.acmici.meeting;
 
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
+import sun.net.ftp.FtpClient;
+import sun.net.ftp.FtpDirEntry;
+import sun.net.ftp.FtpProtocolException;
+import sun.net.ftp.FtpReplyCode;
 
 import java.io.*;
+import java.net.InetSocketAddress;
+import java.util.Iterator;
 
 /**
  * Created by canhe on 2015/4/11.
  */
 public class MeetingClientImpl implements MeetingClient {
-    FTPClient client;
+    FtpClient client;
 
-    public MeetingClientImpl() {
-        client = new FTPClient();
+    public MeetingClientImpl() throws IOException, FtpProtocolException {
+        client = FtpClient.create();
     }
 
     @Override
-    public void connectServer() throws IOException {
-        client.connect("localhost", 2221);
-        int rep = client.getReplyCode();
-        if (!FTPReply.isPositiveCompletion(rep)) {
-            client.disconnect();
-            System.err.println("FTP server refused connection.");
-        } else {
-            System.out.println("Connected to " + "localhost" + " on " + "port 2221");
-        }
+    public void connectServer() throws IOException, FtpProtocolException {
+        client.connect(new InetSocketAddress(2221));
+        FtpReplyCode rep = client.getLastReplyCode();
+//        if (!FtpClient.(rep)) {
+//            client.disconnect();
+//            System.err.println("FTP server refused connection.");
+//        } else {
+//            System.out.println("Connected to " + "localhost" + " on " + "port 2221");
+//        }
+        System.out.println(rep);
     }
 
     @Override
-    public void getFile() throws IOException {
-        client.login("anonymous", "");
-
-        client.setFileType(FTP.BINARY_FILE_TYPE);
-        client.setControlEncoding("UTF-8");
-        client.enterLocalPassiveMode();
-
-        System.out.println(client.printWorkingDirectory());
-        boolean result;
-        FTPFile[] files = client.listFiles();
-        for (FTPFile file : files) {
-            System.out.println(file);
-            FileOutputStream output = new FileOutputStream("meeting_files\\" + file.getName());
-//            result = client.retrieveFile(new String(file.getName().getBytes("GBK"), "iso-8859-1"), output);
-            result = client.retrieveFile(file.getName(), output);
-            System.out.println("retrieveFile " + file.getName() + " result: " + result + ";\nreply code: " + client.getReplyString());
-            output.close();
+    public void getFiles(String dir, String localDir) throws IOException, FtpProtocolException {
+        if (!client.isLoggedIn()) {
+            client.login("anonymous", "aa".toCharArray());
         }
+        client.setBinaryType();
 
-        FileInputStream input = new FileInputStream("meeting_files\\新建文本文档.txt");
-        client.storeFile(new String("新建文本.txt".getBytes("UTF-8")), input);
-        System.out.println(new String(client.getReplyString().getBytes("GBK"), "iso-8859-1"));
+        Iterator<FtpDirEntry> files = client.listFiles(dir);
+        while (files.hasNext()) {
+            FtpDirEntry file = files.next();
+            FtpDirEntry.Type type = file.getType();
+
+            if (type == FtpDirEntry.Type.DIR) {
+                File f = new File("");
+                String path = f.getAbsolutePath();
+                f = new File(path + "\\" + localDir + file.getName());
+                if (!f.exists() && !f.isDirectory()) {
+                    boolean result = f.mkdirs();
+                    System.out.println(result);
+                }
+                getFiles(dir + file.getName() + "/", localDir + file.getName() + "\\");
+            } else if (type == FtpDirEntry.Type.FILE) {
+                String fileName = file.getName();
+
+                FileOutputStream output = new FileOutputStream(localDir + fileName);
+                client.getFile(fileName, output);
+
+                System.out.println("retrieveFile " + fileName + ";\nreply code: " + client.getLastResponseString());
+                output.close();
+            }
+        }
     }
 
     public static void main(String[] args) {
-        MeetingClient myClient = new MeetingClientImpl();
         try {
+            MeetingClient myClient = new MeetingClientImpl();
             myClient.connectServer();
-            myClient.getFile();
+            myClient.getFiles("/", "meeting_files\\");
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FtpProtocolException e) {
             e.printStackTrace();
         }
     }
