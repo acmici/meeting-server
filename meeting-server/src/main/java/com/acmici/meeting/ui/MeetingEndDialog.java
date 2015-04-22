@@ -6,13 +6,17 @@
 
 package com.acmici.meeting.ui;
 
+import javax.swing.JFileChooser;
+
 /**
  * @author sukha
  */
 public class MeetingEndDialog extends javax.swing.JDialog {
-
+    final private String backupPath;
     /**
      * Creates new form RecordUpdateDialog
+     * @param parent
+     * @param modal
      */
     public MeetingEndDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -20,8 +24,23 @@ public class MeetingEndDialog extends javax.swing.JDialog {
         int w = (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
         int h = (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
         this.setLocation(w, h);
+        backupPath = null;
     }
+    /**
+     * Creates new form RecordUpdateDialog
+     * @param parent
+     * @param modal
+     * @param serverPath
+     */
+    public MeetingEndDialog(java.awt.Frame parent, boolean modal, String serverPath) {
+        super(parent, modal);
+        initComponents();
+        int w = (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
+        int h = (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
+        this.setLocation(w, h);
 
+        backupPath = serverPath;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,12 +174,20 @@ public class MeetingEndDialog extends javax.swing.JDialog {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         // 判断录音文件和会议记录文件路径合法性，并给出提示
         final String confirmMessage = "录音文件或会议记录路径为空，确定不将其保存？";
-        if (javax.swing.JOptionPane.showConfirmDialog(null, confirmMessage, "提示", javax.swing.JOptionPane.YES_NO_OPTION)
-                == javax.swing.JOptionPane.NO_OPTION) { 
-            // ...... 
-        } else { 
+        if (recordTextField.getText().equals("") || logTextField.getText().equals("")) {
+            if (javax.swing.JOptionPane.showConfirmDialog(null, confirmMessage, "提示", javax.swing.JOptionPane.YES_NO_OPTION)
+                    == javax.swing.JOptionPane.NO_OPTION) { 
+                // ...... 
+            } else { 
+                System.exit(0);
+            } 
+        } else {
+            //备份会议文件，文件夹命名方式为日期+会议主题
+            FileHandler fileHandler = new FileHandler();
+            fileHandler.copyFolder(recordTextField.getText(), backupPath);
+            fileHandler.copyFolder(logTextField.getText(), backupPath);
             System.exit(0);
-        } 
+        }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleButtonActionPerformed
@@ -173,11 +200,30 @@ public class MeetingEndDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_logTextFieldActionPerformed
 
     private void recordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordButtonActionPerformed
-        // TODO add your handling code here:
+        // 选择录音文件
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("请选择录音文件");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result = chooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            recordTextField.setText(chooser.getSelectedFile().toString());
+        }
+        
+        // 将录音文件拷贝到指定文件夹下
+//        FileHandler fileHandler = new FileHandler();
+//        fileHandler.copyFolder(meetingServer.getFile_path(), 
+//                    filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic());
     }//GEN-LAST:event_recordButtonActionPerformed
 
     private void logButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logButtonActionPerformed
-        // TODO add your handling code here:
+        // 选择会议记录文件
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("请选择会议记录文件");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int result = chooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            logTextField.setText(chooser.getSelectedFile().toString());
+        }
     }//GEN-LAST:event_logButtonActionPerformed
 
 

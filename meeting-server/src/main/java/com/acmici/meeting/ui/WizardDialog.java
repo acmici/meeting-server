@@ -17,16 +17,13 @@ import java.awt.Toolkit;
  * @author sukha
  */
 public class WizardDialog extends javax.swing.JDialog {
-    private java.awt.Frame owner;
     /**
      * Creates new form WizardDialog
      */
     private MeetingServer meetingServer;
-    private String filePath;
 
     public WizardDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        owner = parent;
         initComponents();
         int w = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
         int h = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
@@ -58,7 +55,7 @@ public class WizardDialog extends javax.swing.JDialog {
         participantsButton = new javax.swing.JButton();
         recorderButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("创建会议向导");
 
         welcomeLabel.setFont(new java.awt.Font("微软雅黑", 0, 18)); // NOI18N
@@ -206,8 +203,7 @@ public class WizardDialog extends javax.swing.JDialog {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int result = chooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
-            filePath = chooser.getSelectedFile().toString();
-            filePathTextField.setText(filePath);
+            filePathTextField.setText(chooser.getSelectedFile().toString());
         }
     }//GEN-LAST:event_filePathButtonActionPerformed
 
@@ -233,22 +229,25 @@ public class WizardDialog extends javax.swing.JDialog {
             javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
-        owner.setVisible(false);
-        meetingServer = new MeetingServerImpl(topicTextField.getText(), recorderTextField.getText(), participantsTextField.getText(), filePath);
-
+        
+        //创建文件服务器
+        this.getOwner().setVisible(false);
+        meetingServer = new MeetingServerImpl(topicTextField.getText(), participantsTextField.getText(),
+                                              recorderTextField.getText(), filePathTextField.getText());
         try {
             meetingServer.startServer();
         } catch (FtpException e) {
             e.printStackTrace();
             // todo hecan 弹出错误提示
         }
+
         OngoingFrame ongoing_frame = new OngoingFrame(meetingServer);
         ongoing_frame.setVisible(true);
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-        owner.setVisible(true);
+        this.getOwner().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
