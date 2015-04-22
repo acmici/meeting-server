@@ -232,8 +232,8 @@ public class WizardDialog extends javax.swing.JDialog {
         
         //创建文件服务器
         this.getOwner().setVisible(false);
-        meetingServer = new MeetingServerImpl(topicTextField.getText(), recorderTextField.getText(), 
-                                            participantsTextField.getText(), filePathTextField.getText());
+        meetingServer = new MeetingServerImpl(topicTextField.getText(), participantsTextField.getText(),
+                                              recorderTextField.getText(), filePathTextField.getText());
         try {
             meetingServer.startServer();
         } catch (FtpException e) {

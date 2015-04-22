@@ -26,6 +26,7 @@ public class OngoingFrame extends javax.swing.JFrame {
     final private SimpleDateFormat meetingDateFormat = new SimpleDateFormat("HH:mm:ss");;
     final private SimpleDateFormat filePathFormat = new SimpleDateFormat("yy-MM-dd");
     final private String filePath = "D:\\test\\";
+    private String backupPath;
     public class MeetingTimerTask extends java.util.TimerTask {  
         //@Override  
         public void run() {
@@ -56,24 +57,38 @@ public class OngoingFrame extends javax.swing.JFrame {
         Timer meetingTimer = new Timer();
         meetingTimer.schedule(new MeetingTimerTask(), 0 ,1000); 
         
+        backupPath = filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic();
         //System.out.println("ongoing...");
         this.backupFiles();
     }
     
-    public void refreshServer(MeetingServer server) {
-        //更新服务器信息
-        meetingServer = server;
+    public boolean refreshBackupPath(String dir_name) {
+        // 更新备份文件路径
+        FileHandler fileHandler = new FileHandler();
+        boolean rtn = fileHandler.renameFile(filePath, 
+                            filePathFormat.format(meetingStartTime) + meetingServer.getTopic(), 
+                            filePathFormat.format(meetingStartTime) + dir_name);
+        if (rtn == false) {
+            final String confirmMessage = "会议已存在，请重新修改会议主题。";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        backupPath = filePath + filePathFormat.format(meetingStartTime) + dir_name;
+        return true;
+    }
+    
+    public void refreshServer() {
+        // 更新服务器信息
+        topic.setText(meetingServer.getTopic());
         participants.setText(meetingServer.getMembers());
         recorder.setText(meetingServer.getRecorder());
-        
         this.backupFiles();
     }
     
     private void backupFiles() {
         //备份会议文件，文件夹命名方式为日期+会议主题
         FileHandler fileHandler = new FileHandler();
-        fileHandler.copyFolder(meetingServer.getFile_path(), 
-                    filePath + filePathFormat.format(meetingStartTime) + meetingServer.getTopic());
+        fileHandler.copyFolder(meetingServer.getFile_path(), backupPath);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -229,7 +244,7 @@ public class OngoingFrame extends javax.swing.JFrame {
 
     private void endButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endButtonActionPerformed
         // TODO add your handling code here:
-        MeetingEndDialog meeting_end_dialog = new MeetingEndDialog(this, true);
+        MeetingEndDialog meeting_end_dialog = new MeetingEndDialog(this, true, backupPath);
         meeting_end_dialog.setVisible(true);
     }//GEN-LAST:event_endButtonActionPerformed
 

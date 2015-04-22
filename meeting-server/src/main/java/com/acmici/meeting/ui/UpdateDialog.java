@@ -65,7 +65,8 @@ public class UpdateDialog extends javax.swing.JDialog {
         participantsButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("创建会议向导");
+        setTitle("修改会议");
+        setResizable(false);
 
         updateLabel.setFont(new java.awt.Font("微软雅黑", 0, 18)); // NOI18N
         updateLabel.setText("修改会议信息");
@@ -81,8 +82,6 @@ public class UpdateDialog extends javax.swing.JDialog {
 
         filePathLabel.setFont(new java.awt.Font("宋体", 0, 14)); // NOI18N
         filePathLabel.setText("会议文件：");
-
-        topicTextField.setEditable(false);
 
         recorderTextField.setMaximumSize(new java.awt.Dimension(2147483647, 151));
 
@@ -223,18 +222,43 @@ public class UpdateDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_filePathButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-
+        // 判断各个输入栏的文字状态
+        if (topicTextField.getText().equals("")) {
+            final String confirmMessage = "请输入会议主题！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (participantsTextField.getText().equals("")) {
+            final String confirmMessage = "请选择与会人员！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (recorderTextField.getText().equals("")) {
+            final String confirmMessage = "请选择记录员！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(filePathTextField.getText().equals("")) {
+            final String confirmMessage = "请选择会议文件路径！";
+            javax.swing.JOptionPane.showMessageDialog(this, confirmMessage, "提示",javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         try {
             meetingServer.setHome(filePathTextField.getText());
         } catch (FtpException e) {
             e.printStackTrace();
             // todo hecan 弹出错误提示
         }
+        
         //System.out.println(filePath);
+        if (owner.refreshBackupPath(topicTextField.getText()) == false)
+            return;
+        meetingServer.setTopic(topicTextField.getText());
         meetingServer.setFile_path(filePathTextField.getText());
         meetingServer.setRecorder(recorderTextField.getText());
         meetingServer.setMembers(participantsTextField.getText());
-        owner.refreshServer(meetingServer);
+        owner.refreshServer();
         this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
