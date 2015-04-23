@@ -34,6 +34,8 @@ public class WelcomeFrame extends JFrame {
         this.setLocation(w, h);
         this.setTitle("国防科技大学无纸化会议系统-服务器");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //修改左上角图标
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\thunder.jpg"));
     }
 
     private JLabel getWelcomeLabel() {
