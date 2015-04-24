@@ -1,48 +1,46 @@
 package com.acmici.meeting.db;
 import java.sql.*;
 public class CreateT_hyxx {
-	private static String drivername="oracle.jdbc.driver.OracleDriver";                        //mysql���ݿ�����
-	private static String url="jdbc:oracle:thin:@127.0.0.1:1521:XE";                     //���ӵ����ݿ��ַ
-	private static String username="system";                                           //�������ݿ��û���
+	private static String drivername="oracle.jdbc.driver.OracleDriver";
+	private static String url="jdbc:oracle:thin:@127.0.0.1:1521:XE";
+	private static String username="meeting";
 	private static String password="123";
 	public CreateT_hyxx(){
 		try	{
-			Class.forName(drivername);
-                        System.out.println("创建驱动成功");
-			Connection con=DriverManager.getConnection(url,username,password); //�õ�����
+			Class.forName(drivername);//连接驱动
+			Connection con=DriverManager.getConnection(url,username,password);//连接数据库
 			Statement st=con.createStatement();
 			
-			//�½���
-			System.out.println("创建会议信息表T_hyxx");  //�����Ϣ������̨
-			String sqlStr="create table T_hyxx(Zj int,Hyzt varchar(100),Hysj varchar(100),Hyjly varchar(10),Yhry varchar(200))"; //�½����SQL���
-			st.executeUpdate(sqlStr); //ִ��SQL���,�½���
+			String sqlStr="create table meeting(Id int,Theme varchar(100),Time date,Recorder varchar(10),Members varchar(200))";//创建会议信息表
+                       //String sqlStr="create table people(Id int not null,Numbers varchar(20))";//创建与会人员表
+			st.executeUpdate(sqlStr);
 			
 			//��������
-			//sqlStr="insert into products(Name,Price,Provider,Count) values(\'���\',2.5,\'�Ϻ�\',20)"; //��������SQL���
+			//sqlStr="insert into products(Name,Price,Provider,Count) values(\'���\',2.5,\'�Ϻ�\',20)";
 			//st.executeUpdate(sqlStr); //ִ�в���
 			//sqlStr="insert into products(Name,Price,Provider,Count) values(\'����\',5.5,\'����\',13)";
 			//st.executeUpdate(sqlStr);			
 			
 			//��ʾ����
-			/*sqlStr="select * from T_yhry"; //��ѯ����SQL���
-			ResultSet rs=st.executeQuery(sqlStr); //��ȡ�����
+			/*sqlStr="select * from T_yhry";
+			ResultSet rs=st.executeQuery(sqlStr);
 			String yhry; 
 			int zj;
 			while (rs.next()){
-				yhry=rs.getString("Yhry"); //ȡ�ò�ѯ���
+				yhry=rs.getString("Yhry");
 				zj=rs.getInt("Zj");
-				System.out.println("yhry:"+yhry+"  zj:"+zj); //��ʾ��ѯ���
+				System.out.println("yhry:"+yhry+"  zj:"+zj);
 			}*/
 			
-			//ɾ����
+			
 			//System.out.println("ɾ����products"); 
-			//sqlStr="drop table products"; //ɾ����SQL���
-			//st.executeUpdate(sqlStr); //ִ��ɾ��			
+			//sqlStr="drop table products";
+			//st.executeUpdate(sqlStr);
 
-			con.close(); //�ر�����			
+			con.close();
 		}
 		catch (Exception ex)	{
-			ex.printStackTrace();  //���������Ϣ
+			ex.printStackTrace();
 		}
 	}
 	
