@@ -21,6 +21,9 @@ public class HistroyFrame extends javax.swing.JFrame {
         int w = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
         int h = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
         this.setLocation(w, h);
+        
+        //修改左上角图标
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\thunder.jpg"));
     }
 
     /**

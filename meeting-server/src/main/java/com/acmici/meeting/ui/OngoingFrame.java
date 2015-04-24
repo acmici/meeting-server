@@ -2,11 +2,23 @@
 package com.acmici.meeting.ui;
 
 import com.acmici.meeting.server.MeetingServer;
+import java.awt.AWTException;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
 
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Timer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -27,6 +39,9 @@ public class OngoingFrame extends javax.swing.JFrame {
     final private SimpleDateFormat filePathFormat = new SimpleDateFormat("yy-MM-dd");
     final private String filePath = "D:\\test\\";
     private String backupPath;
+    private SystemTray tray;  //系统托盘
+    private TrayIcon trayIcon;  //托盘图标
+    
     public class MeetingTimerTask extends java.util.TimerTask {  
         //@Override  
         public void run() {
@@ -42,9 +57,13 @@ public class OngoingFrame extends javax.swing.JFrame {
     public OngoingFrame(MeetingServer server) {
         meetingServer = server;
         initComponents();
+        initTray();
         int w = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getWidth()) / 2;
         int h = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
         this.setLocation(w, h);
+        
+        //修改左上角图标
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\thunder.jpg"));
         
         //初始化会议主题、与会人员、记录员信息
         topic.setText(meetingServer.getTopic());
@@ -244,8 +263,7 @@ public class OngoingFrame extends javax.swing.JFrame {
 
     private void endButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endButtonActionPerformed
         // TODO add your handling code here:
-        MeetingEndDialog meeting_end_dialog = new MeetingEndDialog(this, true, backupPath);
-        meeting_end_dialog.setVisible(true);
+        handleEndMeet();
     }//GEN-LAST:event_endButtonActionPerformed
 
     private void readButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readButtonActionPerformed
@@ -259,10 +277,65 @@ public class OngoingFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        MeetingEndDialog meeting_end_dialog = new MeetingEndDialog(this, true);
-        meeting_end_dialog.setVisible(true);
+        dispose();
     }//GEN-LAST:event_formWindowClosing
 
+    private void handleEndMeet(){
+        MeetingEndDialog meeting_end_dialog = new MeetingEndDialog(this, true);
+        meeting_end_dialog.setVisible(true);
+    }
+    
+    //最小化到托盘
+    private void initTray(){
+        try {
+            trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("D:\\thunder.jpg"),"无纸化会议系统",initPopMenu());  //创建托盘图标的实例
+            tray=SystemTray.getSystemTray();  //得到系统托盘实例
+            tray.add(trayIcon);
+            
+            trayIcon.addMouseListener(new MouseListener() {
+
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 1&&e.getButton()==MouseEvent.BUTTON1) {
+                        //如果窗口最小化则还原
+			if (getExtendedState() == JFrame.ICONIFIED) {
+                            setExtendedState(JFrame.NORMAL);
+			} else {
+                            // 设置窗口状态(最小化至托盘)
+                            setVisible(true);
+			}
+                    }
+		}
+
+                public void mousePressed(MouseEvent e) {}
+                public void mouseReleased(MouseEvent e) {}
+                public void mouseEntered(MouseEvent e) {}
+                public void mouseExited(MouseEvent e) {}
+            });
+        } catch (AWTException ex) {
+            Logger.getLogger(OngoingFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+   
+    //创建一个弹出式菜单
+    private PopupMenu initPopMenu(){
+        PopupMenu popupMenu = new PopupMenu();
+        MenuItem showMain = new MenuItem("显示主界面");
+        MenuItem exit = new MenuItem("退出");
+        popupMenu.add(showMain);
+        popupMenu.add(exit);
+        showMain.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                setVisible(true);
+            }
+        });
+        exit.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                handleEndMeet();             
+            }
+        });
+        return popupMenu;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton endButton;
