@@ -19,7 +19,22 @@ public class WelcomeFrame extends JFrame {
     private JButton read_button;
 
     public WelcomeFrame() {
+
         super();
+        try {
+            //修改ui主题，这里可以网上搜一搜，自带了一些，还有很多第三方的可以用
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        SwingUtilities.updateComponentTreeUI(getContentPane());
+
         this.setSize(500, 300);
         this.setResizable(false);
         this.getContentPane().setLayout(null);
@@ -34,6 +49,7 @@ public class WelcomeFrame extends JFrame {
         this.setLocation(w, h);
         this.setTitle("国防科技大学无纸化会议系统-服务器");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     private JLabel getWelcomeLabel() {
