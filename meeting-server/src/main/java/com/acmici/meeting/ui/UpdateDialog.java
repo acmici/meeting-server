@@ -31,6 +31,9 @@ public class UpdateDialog extends javax.swing.JDialog {
         int h = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getHeight()) / 2;
         this.setLocation(w, h);
         
+        //修改左上角图标
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\thunder.jpg"));
+        
         //设置各个信息栏的默认值
         topicTextField.setText(meetingServer.getTopic());
         participantsTextField.setText(meetingServer.getMembers());
