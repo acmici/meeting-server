@@ -59,7 +59,7 @@ public class FileServer {
         FileServer myServer;
         try {
             myServer = new FileServer();
-            myServer.setHome("C:");
+            myServer.setHome("D:\\jjl\\meeting-system\\meeting-system\\meeting-server\\meeting_files");
             myServer.startServer();
         } catch (FtpException e) {
             e.printStackTrace();
